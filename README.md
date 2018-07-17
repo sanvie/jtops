@@ -22,3 +22,24 @@ Here is another example where the edge (e) is an internal edge. This mesh is mad
 
 
 ![2 triangles](/doc/images/img3.png)
+
+
+Another example would be the cube where, amazingly enough, there is no boudary :-) as all edges have a face on their left and right. The mesh is fully closed. Here represented with non triangular faces for simplicity.
+
+
+![cube](/doc/images/img4.png)
+
+
+We can also easily create several different boundaries :
+
+
+![multiple boundaries](/doc/images/img5.png)
+
+As mentionned previously some mesh would not be 2-manifold
+
+
+## The half-edge data structure
+
+To store conveniently such a mesh we need a dedicated data structure. A pretty popular one being the half-edge one.
+
+We also a minimal set of operators.
