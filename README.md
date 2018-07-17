@@ -14,5 +14,5 @@ Here is the most simple possible mesh:
 ![the most simple mesh](/doc/images/img1.png)
 
 
-It is made of a single triangle. The triangle is made of 3 vertices connected by edges.
+It is made of a single triangle. The triangle is made of 3 vertices connected by edges. The edges define a "loop" (for instance A to B, then B to C and then C to A). This loop is closed and defines an "interior" and an exterior. We need a convention to know where the interior is: we orient our loop counter clockwise. So this triangle is ABC.
 
