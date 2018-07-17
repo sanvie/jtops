@@ -6,6 +6,6 @@ by Thomas Lewiner, Hélio Lopes, Esdras Medeiros, Geovan Tavares and Luiz Velho.
 
 ## Some "theoretical" forewords
 
-Jtops is a framework for manipulation of triangulated 2-manifold with or without boundaries. Which basically means, Jtop allow you to manipulate mesh made of triangles made of 2D surfaces not necessarily closed (boundaries). The 2-manifold condition means that two faces (triangles) of the mesh can only be either disconnected or connected through an edge. Better than long explanations some drawings can help understand this fundamental condition.  
+Jtops is a framework for manipulation of triangulated 2-manifold with or without boundaries. Which basically means, Jtop allow you to manipulate mesh made of triangulated 2D surfaces not necessarily closed (boundaries). The 2-manifold condition means that two faces (triangles) of the mesh can only be either disconnected or connected through an edge. Better than long explanations some drawings can help understand this fundamental condition.  
 
 
