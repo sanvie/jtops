@@ -35,7 +35,10 @@ We can also easily create several different boundaries :
 
 ![multiple boundaries](/doc/images/img5.png)
 
-As mentionned previously some mesh would not be 2-manifold
+As mentionned previously some mesh would not be 2-manifold (and cannot be handled with Jtop)... for instance a mesh where two faces are connected by a single vertex, or a mesh where more than two faces share a common edge:
+
+
+![cube](/doc/images/img6.png)
 
 
 ## The half-edge data structure
