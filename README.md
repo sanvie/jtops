@@ -38,11 +38,15 @@ We can also easily create several different boundaries :
 As mentionned previously some mesh would not be 2-manifold (and cannot be handled with Jtop)... for instance a mesh where two faces are connected by a single vertex, or a mesh where more than two faces share a common edge:
 
 
-![cube](/doc/images/img6.png)
+![non 2-manifold](/doc/images/img6.png)
 
 
 ## The half-edge data structure
 
-To store conveniently such a mesh we need a dedicated data structure. A pretty popular one being the half-edge one.
+To store conveniently such a mesh we need a dedicated data structure. A pretty popular one is the half-edge. An edge is connecting two vertices but is not oriented. In order to provide orientation to a face we need some sort of oriented edge. That's were the idea of spliting an edge into two oriented half edge comes handy. Our ABC triangle would look like this:
+
+![half edge](/doc/images/img7.png)
+
+
 
 We also a minimal set of operators.
