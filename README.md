@@ -43,7 +43,7 @@ As mentionned previously some mesh would not be 2-manifold (and cannot be handle
 
 ## The half-edge data structure
 
-To store conveniently such a mesh we need a dedicated data structure. A pretty popular one is the half-edge. An edge is connecting two vertices but is not oriented. In order to provide orientation to a face we need some sort of oriented edge. That's were the idea of spliting an edge into two oriented half edge comes handy. Our ABC triangle would look like this:
+To store conveniently such a mesh we need a dedicated data structure. A pretty popular one is the half-edge. An edge is connecting two vertices but is not oriented. In order to provide orientation to a face we need some sort of oriented edge. That's were the idea of spliting an edge into two oriented half edges comes handy. Our ABC triangle would look like this:
 
 ![half edge](/doc/images/img7.png)
 
