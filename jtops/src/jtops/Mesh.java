@@ -111,12 +111,21 @@ public class Mesh {
 
 	/**
 	 * Split and edge adding a vertex (and faces)
+	 * This split is only allowed between two triangle face or on a boundary triangle face
 	 * @param e the edge to split
 	 * @param position the position of the new vertex/point
 	 * @return true if the operation was successful and false otherwise
 	 */
 	public boolean splitEdge(Edge e, Vector3D position) {
-		return false;
+		
+		if(e.isBoundary()) {
+			
+		} else {
+			// remove edge
+			// split face
+		}
+		
+		return true;
 	}
 	
 	
