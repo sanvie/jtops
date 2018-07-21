@@ -163,7 +163,7 @@ public class Mesh {
 			Edge e = new Edge(he0, he1);
 			_edges.add(e);
 			edges.add(e);
-			Face nf = new Face(this);
+			Face nf = new TriangleFace(this);
 			_faces.add(nf);
 			faces.add(nf);
 			hes.add(he);
@@ -289,7 +289,49 @@ public class Mesh {
 	private HashSet<NullFace> _boundaries = new HashSet<NullFace>();
 	
 	public boolean _splitBoundaryEdge(Edge e, Vector3D position) {
-		return false;
+		HalfEdge he0 = e.getHE0().face.isNull() ? e.getHE1() : e.getHE0();
+		if(!he0.face.isTriangle()) return false;
+		
+		NullFace boundary = e.getBoundary();
+		
+		Point p = makePoint(position);
+		Vertex v = p.makeVertex();
+		_vertices.add(v);
+		
+		HalfEdge he1 = he0.getMate();
+		Vertex v1 = he0.getDestination();
+		Face f = he0.face;
+		HalfEdge he0n = he0.next;
+		HalfEdge he0p = he0.getPrev();
+		HalfEdge he1p = he1.getPrev();
+		Vertex v2 = he0p.origin;
+		
+		Face nf = new TriangleFace(this);
+		_faces.add(nf);
+		
+		HalfEdge hea0 = new HalfEdge();
+		HalfEdge hea1 = new HalfEdge();
+		Edge ea = new Edge(hea0, hea1);	
+		HalfEdge heb0 = new HalfEdge();
+		HalfEdge heb1 = new HalfEdge();
+		Edge eb = new Edge(heb0, heb1);
+		_edges.add(ea);
+		_edges.add(eb);
+		
+		hea0.setONF(v, he0p, nf);
+		hea1.setONF(v2, heb0, f);
+		heb0.setONF(v, he0n, f);
+		heb1.setONF(v1, he1, boundary);
+		he0.next = hea0;
+		he0n.next = hea1;
+		he1p.next = heb1;
+		v.star = heb1;
+		nf.halfEdge = he0p;
+		he0p.face = nf;
+		he0.face = nf;
+		f.halfEdge = he0n;
+		
+		return true;
 	}
 	
 	public boolean _splitInternalEdge(Edge e, Vector3D position) {
