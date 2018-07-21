@@ -1,10 +1,14 @@
 package jtops;
 
+import java.io.File;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.io.FileUtils;
 
 import jtops.Face.NullFace;
 import jtops.Face.TriangleFace;
@@ -239,8 +243,8 @@ public class Mesh {
 			do {
 				he = he.next;
 				count++;
-			} while( he != nf.halfEdge || count < _edges.size() );
-			if(he != nf.halfEdge || count>= _edges.size()) { System.out.println("Boundary not closed"); }
+			} while( he != nf.halfEdge && count < _edges.size() +1 );
+			if(he != nf.halfEdge || count> _edges.size()) { System.out.println("Boundary not closed"); }
 		}
 		
 		return result;
@@ -256,6 +260,17 @@ public class Mesh {
 			Vector3D position = v.location.location;
 			sb = sb.append("v "+position.X+" "+position.Y+" "+position.Z).append("\r\n");
 		}
+		for(Face f : _faces) {
+			HalfEdge he = f.halfEdge;
+			sb = sb.append("f ");
+			do {
+				sb = sb.append(he.origin.Index).append(" ");
+				he = he.next;
+			} while(he != f.halfEdge);
+			sb = sb.append("\r\n");
+		}
+		
+		try { FileUtils.writeStringToFile(new File(filename), sb.toString(), Charset.defaultCharset()); } catch(Exception e) { e.printStackTrace(); }
 		
 	}
 	

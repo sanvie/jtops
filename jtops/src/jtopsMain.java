@@ -1,3 +1,4 @@
+import jtops.Face;
 import jtops.Mesh;
 import jtops.Point;
 import jtops.Vector3D;
@@ -8,7 +9,7 @@ public class jtopsMain {
 		// TODO Auto-generated method stub
 
 		testMakeFace();
-		
+		testSplitFace();
 	}
 
 	private static void testMakeFace() {
@@ -21,6 +22,23 @@ public class jtopsMain {
 		mesh.makeFace(p0, p1, p2);
 		
 		mesh.check();
+		
+		System.out.println();
+		System.out.println();
+	}
+	
+	private static void testSplitFace() {
+		System.out.println("testSplitFace:");
+		
+		Mesh mesh = new Mesh();
+		Point p0 = mesh.makePoint(new Vector3D(0,0,0));
+		Point p1 = mesh.makePoint(new Vector3D(1,0,0));
+		Point p2 = mesh.makePoint(new Vector3D(0,1,0));
+		Face f = mesh.makeFace(p0, p1, p2);
+		
+		mesh.splitFace(f, new Vector3D(0.5, 0.2, 0));
+		mesh.check();
+		mesh.toOBJ("testSplitFace.obj");
 		
 		System.out.println();
 		System.out.println();
