@@ -288,11 +288,11 @@ public class Mesh {
 	private HashSet<Face> _faces = new HashSet<Face>();
 	private HashSet<NullFace> _boundaries = new HashSet<NullFace>();
 	
-	public boolean splitBoundaryEdge(Edge e, Vector3D position) {
+	public boolean _splitBoundaryEdge(Edge e, Vector3D position) {
 		return false;
 	}
 	
-	public boolean splitInternalEdge(Edge e, Vector3D position) {
+	public boolean _splitInternalEdge(Edge e, Vector3D position) {
 		return false;
 	}
 }
