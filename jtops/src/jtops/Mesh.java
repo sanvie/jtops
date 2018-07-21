@@ -114,9 +114,9 @@ public class Mesh {
 	 * This split is only allowed between two triangle face or on a boundary triangle face
 	 * @param e the edge to split
 	 * @param position the position of the new vertex/point
-	 * @return true if the operation was successful and false otherwise
+	 * @return the created vertex or null if the operation failed
 	 */
-	public boolean splitEdge(Edge e, Vector3D position) {
+	public Vertex splitEdge(Edge e, Vector3D position) {
 		
 		if(e.isBoundary()) {
 			return _splitBoundaryEdge(e, position);
@@ -143,10 +143,10 @@ public class Mesh {
 	 * a ngone is split into n faces
 	 * @param f the face to split 
 	 * @param position position of the new vertex
-	 * @return true if the operation was successful and false otherwise 
+	 * @return the vertex created within the face 
 	 */
-	public boolean splitFace(Face f, Vector3D position) {
-		if(f.isNull()) return false;
+	public Vertex splitFace(Face f, Vector3D position) {
+		if(f.isNull()) return null;
 		
 		Point p = makePoint(position);
 		Vertex v = p.makeVertex();
@@ -185,7 +185,7 @@ public class Mesh {
 		
 		v.star = edges.get(0).getHE1();
 		
-		return true;
+		return v;
 	}
 	
 	/**
@@ -288,9 +288,9 @@ public class Mesh {
 	private HashSet<Face> _faces = new HashSet<Face>();
 	private HashSet<NullFace> _boundaries = new HashSet<NullFace>();
 	
-	public boolean _splitBoundaryEdge(Edge e, Vector3D position) {
+	public Vertex _splitBoundaryEdge(Edge e, Vector3D position) {
 		HalfEdge he0 = e.getHE0().face.isNull() ? e.getHE1() : e.getHE0();
-		if(!he0.face.isTriangle()) return false;
+		if(!he0.face.isTriangle()) return null;
 		
 		NullFace boundary = e.getBoundary();
 		
@@ -331,10 +331,10 @@ public class Mesh {
 		he0.face = nf;
 		f.halfEdge = he0n;
 		
-		return true;
+		return v;
 	}
 	
-	public boolean _splitInternalEdge(Edge e, Vector3D position) {
-		return false;
+	public Vertex _splitInternalEdge(Edge e, Vector3D position) {
+		return null;
 	}
 }

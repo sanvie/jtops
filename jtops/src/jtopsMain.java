@@ -58,8 +58,14 @@ public class jtopsMain {
 		mesh.makeFace(p0, p1, p2);
 		
 		List<Edge> e = p0.findEdges(p1);
-		
 		mesh.splitEdge(e.get(0), new Vector3D(0.5, 0, 0));
+		
+		e = p0.findEdges(p2);
+		mesh.splitEdge(e.get(0), new Vector3D(0, 0.5, 0));
+		
+		e = p1.findEdges(p2);
+		mesh.splitEdge(e.get(0), new Vector3D(0.5, 0.5, 0));
+		
 		mesh.check();
 		mesh.toOBJ("testSplitEdge.obj");
 		
