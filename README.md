@@ -47,6 +47,19 @@ To store conveniently such a mesh we need a dedicated data structure. A pretty p
 
 ![half edge](/doc/images/img7.png)
 
+So that:
+
+a half-edge is defined by 
+- its destination vertex
+- the edge it belongs to
+- the next half-edge in the face loop this half-edge define
+- the face it contributes to the face loop (if any)
+
+An edge is defined by
+- its two half edges
+
+A face is defined by:
+- any of the half edge in its internal loop
 
 
 We also a minimal set of operators.
