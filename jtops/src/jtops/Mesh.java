@@ -335,6 +335,27 @@ public class Mesh {
 	}
 	
 	public Vertex _splitInternalEdge(Edge e, Vector3D position) {
-		return null;
+		
+		_edges.remove(e);
+		HalfEdge he0 = e.he[0];
+		HalfEdge he1 = e.he[1];
+		HalfEdge he0p = he0.getPrev();
+		HalfEdge he0n = he0.next;
+		HalfEdge he1p = he1.getPrev();
+		HalfEdge he1n = he1.next;
+		Vertex v0 = he0.origin;
+		Vertex v1 = he1.origin;
+		Face f0 = he0.face;
+		Face f1 = he1.face;
+		
+		_faces.remove(f1);
+		if(!v0.star.face.isNull()) v0.star = he0p.getMate();
+		if(!v1.star.face.isNull()) v1.star = he1p;
+		he1p.next = he0n;
+		he0p.next = he1n;
+		he1n.face = f0;
+		he0n.face = f0;
+		
+		return splitFace(f0, position);
 	}
 }

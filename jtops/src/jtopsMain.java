@@ -5,6 +5,7 @@ import jtops.Face;
 import jtops.Mesh;
 import jtops.Point;
 import jtops.Vector3D;
+import jtops.Vertex;
 
 public class jtopsMain {
 
@@ -13,7 +14,8 @@ public class jtopsMain {
 
 		testMakeFace();
 		testSplitFace();
-		testSplitEdge();
+		testSplitEdge1();
+		testSplitEdge2();
 	}
 
 	private static void testMakeFace() {
@@ -48,8 +50,8 @@ public class jtopsMain {
 		System.out.println();
 	}
 	
-	private static void testSplitEdge() {
-		System.out.println("testSplitEdge:");
+	private static void testSplitEdge1() {
+		System.out.println("testSplitEdge 1:");
 		
 		Mesh mesh = new Mesh();
 		Point p0 = mesh.makePoint(new Vector3D(0,0,0));
@@ -67,7 +69,29 @@ public class jtopsMain {
 		mesh.splitEdge(e.get(0), new Vector3D(0.5, 0.5, 0));
 		
 		mesh.check();
-		mesh.toOBJ("testSplitEdge.obj");
+		mesh.toOBJ("testSplitEdge1.obj");
+		
+		System.out.println();
+		System.out.println();
+	}
+	
+	private static void testSplitEdge2() {
+		System.out.println("testSplitEdge 2:");
+		
+		Mesh mesh = new Mesh();
+		Point p0 = mesh.makePoint(new Vector3D(0,0,0));
+		Point p1 = mesh.makePoint(new Vector3D(1,0,0));
+		Point p2 = mesh.makePoint(new Vector3D(0,1,0));
+		mesh.makeFace(p0, p1, p2);
+		
+		List<Edge> e = p0.findEdges(p1);
+		Vertex v = mesh.splitEdge(e.get(0), new Vector3D(0.5, 0, 0));
+		
+		e = v.getPoint().findEdges(p2);
+		v = mesh.splitEdge(e.get(0), new Vector3D(0.25, 0.5, 0));
+		
+		mesh.check();
+		mesh.toOBJ("testSplitEdge2.obj");
 		
 		System.out.println();
 		System.out.println();
