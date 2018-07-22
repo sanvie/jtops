@@ -44,6 +44,9 @@ public class Vertex {
 		return Collections.unmodifiableList(result);
 	}
 	
+	/**
+	 * @return all incident half edges "clockwise" (beware)
+	 */
 	public List<HalfEdge> getAllIncidentHalfEdges() {
 		ArrayList<HalfEdge> result = new ArrayList<HalfEdge>();
 		

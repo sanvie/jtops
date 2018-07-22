@@ -162,7 +162,12 @@ public class Mesh {
 	 * @return true if the operation was successful and false otherwise
 	 */
 	public boolean weldVertex(Vertex v) {
-		return false;
+		
+		List<HalfEdge> halfEdges = v.getAllIncidentHalfEdges();
+		if(halfEdges.size() != 3) return false;
+		
+		if(v.isBoundary()) return _weldBoundaryVertex(v, halfEdges);
+		else return _weldInternalVertex(v, halfEdges);
 	}
 	
 	
@@ -318,7 +323,7 @@ public class Mesh {
 	private HashSet<Face> _faces = new HashSet<Face>();
 	private HashSet<NullFace> _boundaries = new HashSet<NullFace>();
 	
-	public Vertex _splitBoundaryEdge(Edge e, Vector3D position) {
+	private Vertex _splitBoundaryEdge(Edge e, Vector3D position) {
 		HalfEdge he0 = e.getHE0().face.isNull() ? e.getHE1() : e.getHE0();
 		if(!he0.face.isTriangle()) return null;
 		
@@ -364,7 +369,7 @@ public class Mesh {
 		return v;
 	}
 	
-	public Vertex _splitInternalEdge(Edge e, Vector3D position) {
+	private Vertex _splitInternalEdge(Edge e, Vector3D position) {
 		
 		_edges.remove(e);
 		HalfEdge he0 = e.he[0];
@@ -387,5 +392,50 @@ public class Mesh {
 		he0n.face = f0;
 		
 		return splitFace(f0, position);
+	}
+	
+	private boolean _weldBoundaryVertex(Vertex v, List<HalfEdge> halfEdges) {
+		return false;
+	}
+	
+	private boolean _weldInternalVertex(Vertex v, List<HalfEdge> halfEdges) {
+		
+		// Half-edges are clockwise
+		
+		ArrayList<Edge> edges = new ArrayList<Edge>();
+		ArrayList<Face> faces = new ArrayList<Face>();
+		for(HalfEdge he : halfEdges) {
+			edges.add(he.edge);
+			faces.add(he.face);
+		}
+		
+		_vertices.remove(v);
+		_edges.removeAll(edges);
+		_faces.removeAll(faces);
+		
+		HalfEdge he0 = halfEdges.get(0).getPrev();
+		HalfEdge he1 = halfEdges.get(1).getPrev();
+		HalfEdge he2 = halfEdges.get(2).getPrev();
+		
+		Vertex v0 = he0.origin;
+		Vertex v1 = he1.origin;
+		Vertex v2 = he2.origin;
+		
+		he0.next = he2;
+		he1.next = he0;
+		he2.next = he1;
+		
+		Face f = new TriangleFace(this);
+		f.halfEdge = he0;
+		he0.face = f;
+		he1.face = f;
+		he2.face = f;
+		
+		if(!v0.isBoundary()) v0.star = he1;
+		if(!v1.isBoundary()) v1.star = he2;
+		if(!v2.isBoundary()) v2.star = he0;
+		
+		
+		return false;
 	}
 }

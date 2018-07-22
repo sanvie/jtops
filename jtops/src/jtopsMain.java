@@ -14,8 +14,10 @@ public class jtopsMain {
 
 		testMakeFace();
 		testSplitFace();
+		testWeldVertex1();
 		testSplitEdge1();
 		testSplitEdge2();
+		testSwapEdge();
 	}
 
 	private static void testMakeFace() {
@@ -45,6 +47,25 @@ public class jtopsMain {
 		mesh.splitFace(f, new Vector3D(0.5, 0.2, 0));
 		mesh.check();
 		mesh.toOBJ("testSplitFace.obj");
+		
+		System.out.println();
+		System.out.println();
+	}
+	
+	private static void testWeldVertex1() {
+		System.out.println("testWeldVertex 1:");
+		
+		Mesh mesh = new Mesh();
+		Point p0 = mesh.makePoint(new Vector3D(0,0,0));
+		Point p1 = mesh.makePoint(new Vector3D(1,0,0));
+		Point p2 = mesh.makePoint(new Vector3D(0,1,0));
+		Face f = mesh.makeFace(p0, p1, p2);
+		
+		Vertex v = mesh.splitFace(f, new Vector3D(0.5, 0.2, 0));
+		mesh.weldVertex(v);
+		
+		mesh.check();
+		mesh.toOBJ("testWeldVertex1.obj");
 		
 		System.out.println();
 		System.out.println();
@@ -92,6 +113,20 @@ public class jtopsMain {
 		
 		mesh.check();
 		mesh.toOBJ("testSplitEdge2.obj");
+		
+		System.out.println();
+		System.out.println();
+	}
+	
+	private static void testSwapEdge() {
+		System.out.println("better to have glue before ...");
+		
+		System.out.println("testSwapEdge:");
+		
+		Mesh mesh = new Mesh();
+		
+		mesh.check();
+		mesh.toOBJ("testSwapEdge.obj");
 		
 		System.out.println();
 		System.out.println();
