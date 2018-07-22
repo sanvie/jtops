@@ -105,7 +105,37 @@ public class Mesh {
 	 * @return true if the operation was successful and false otherwise
 	 */
 	public boolean flipEdge(Edge e) {
-		return false;
+		if(e.he[0].face.isNull() || e.he[1].face.isNull())
+			return false;
+		if(!e.he[0].face.isTriangle() || !e.he[1].face.isTriangle())
+			return false;
+		
+		HalfEdge he0 = e.he[0];
+		HalfEdge he1 = e.he[1];
+		HalfEdge he0p = he0.getPrev();
+		HalfEdge he0n = he0.next;
+		HalfEdge he1p = he1.getPrev();
+		HalfEdge he1n = he1.next;
+		Face f0 = he0.face;
+		Face f1 = he1.face;
+		Vertex v0 = he0.origin;
+		Vertex v2 = he1.origin;
+		Vertex v1 = he1p.origin;
+		Vertex v3 = he0p.origin;
+		
+		he1.next = he1p;
+		he0n.next = he1;
+		he0.next = he0p;
+		he0p.next = he1n;
+		he1.origin = v3;
+		he0.origin = v1;
+		he1n.face = f0;
+		he0n.face = f1;
+		
+		if(!v0.star.face.isNull()) v0.star = he0p;
+		if(!v2.star.face.isNull()) v2.star = he1p;
+		
+		return true;
 	}
 	
 
