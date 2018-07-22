@@ -395,7 +395,25 @@ public class Mesh {
 	}
 	
 	private boolean _weldBoundaryVertex(Vertex v, List<HalfEdge> halfEdges) {
-		return false;
+		
+		HalfEdge he0 = halfEdges.get(0);
+		HalfEdge he1 = halfEdges.get(1);
+		HalfEdge he2 = halfEdges.get(2);
+		
+		HalfEdge a = he0.getMate().next;
+		HalfEdge b = he1.getPrev();
+		
+		_vertices.remove(v);
+		_edges.remove(he2.edge);
+		_faces.remove(he2.getMate().face);		
+		he0.edge.he[0] = he1;
+		
+		a.next = b;
+		he1.next = a;
+		b.face = a.face;
+		he1.face = a.face;
+		
+		return true;
 	}
 	
 	private boolean _weldInternalVertex(Vertex v, List<HalfEdge> halfEdges) {
@@ -436,6 +454,6 @@ public class Mesh {
 		if(!v2.isBoundary()) v2.star = he0;
 		
 		
-		return false;
+		return true;
 	}
 }

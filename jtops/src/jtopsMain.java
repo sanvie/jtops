@@ -15,6 +15,7 @@ public class jtopsMain {
 		testMakeFace();
 		testSplitFace();
 		testWeldVertex1();
+		testWeldVertex2();
 		testSplitEdge1();
 		testSplitEdge2();
 		testSwapEdge();
@@ -66,6 +67,31 @@ public class jtopsMain {
 		
 		mesh.check();
 		mesh.toOBJ("testWeldVertex1.obj");
+		
+		System.out.println();
+		System.out.println();
+	}
+	
+	private static void testWeldVertex2() {
+		System.out.println("testWeldVertex 2:");
+		
+		Mesh mesh = new Mesh();
+		Point p0 = mesh.makePoint(new Vector3D(0,0,0));
+		Point p1 = mesh.makePoint(new Vector3D(1,0,0));
+		Point p2 = mesh.makePoint(new Vector3D(0,1,0));
+		mesh.makeFace(p0, p1, p2);
+		
+		List<Edge> e = p0.findEdges(p1);
+		Vertex va = mesh.splitEdge(e.get(0), new Vector3D(0.5, 0, 0));
+		
+		e = va.getPoint().findEdges(p2);
+		Vertex vb = mesh.splitEdge(e.get(0), new Vector3D(0.25, 0.5, 0));
+		
+		mesh.weldVertex(va);
+		mesh.weldVertex(vb);
+		
+		mesh.check();
+		mesh.toOBJ("testWeldVertex2.obj");
 		
 		System.out.println();
 		System.out.println();
